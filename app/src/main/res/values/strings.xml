@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BuyMyProduct</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="connexion_btn_text">Connexion</string>
+    <string name="authentication_text">Authentification ...</string>
+    <string name="error_email">Veuillez entrez un email valide</string>
+    <string name="password_error_text">entre 4 et 10 caractères</string>
 </resources>
