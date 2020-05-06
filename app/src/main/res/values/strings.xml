@@ -6,4 +6,11 @@
     <string name="authentication_text">Authentification ...</string>
     <string name="error_email">Veuillez entrez un email valide</string>
     <string name="password_error_text">entre 4 et 10 caractères</string>
+    <string name="header_text_login">Vous avez déja un compte? Connectez-vous</string>
+    <string name="goto_register_activity_text">Pas encore de compte? Inscription</string>
+    <string name="register_header_text">Créer un compte ! Commencez</string>
+    <string name="register_btn_text">Valider</string>
+    <string name="oto_login_activity_text">Déja un compte? Connexion</string>
+    <string name="confirm_password_text">Confirmer password</string>
+    <string name="non_identiques_password">Password non identiques</string>
 </resources>

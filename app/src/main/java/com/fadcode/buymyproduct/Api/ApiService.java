@@ -12,5 +12,8 @@ public interface ApiService {
     @POST("authentication.php")
      Call<User> login(@Body User user);
 
+    @POST("registration.php")
+    Call<User> register(@Body User user);
+
 
 }

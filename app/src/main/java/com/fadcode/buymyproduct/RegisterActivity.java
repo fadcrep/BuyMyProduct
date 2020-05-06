@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fadcode.buymyproduct.Api.ApiService;
@@ -21,57 +20,63 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG= "LoginActivity";
+public class RegisterActivity extends AppCompatActivity {
+
+    private static final String TAG= "RegisterActivity";
     private ApiService apiService;
-    MaterialButton btn_connexion;
+    MaterialButton btn_register;
     View ll_progressBar;
     private String email;
     private String password;
-    TextInputLayout email_layout, password_layout;
+    private String confirm_password;
+    TextInputLayout email_layout, password_layout, confirm_password_layout;
 
-    MaterialTextView goto_registerActivity;
-    TextInputEditText email_editext , password_editext;
+
+    MaterialTextView goto_loginActivity;
+    TextInputEditText email_editext , password_editext, confirm_password_editext ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
+
         apiService = ApiUtils.getAPIService();
         findViewById();
 
-        btn_connexion.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                register();
             }
         });
-
-        goto_registerActivity.setOnClickListener(new View.OnClickListener() {
+        goto_loginActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
 
     public void findViewById(){
 
-        btn_connexion = findViewById(R.id.btn_connexion);
-        goto_registerActivity = findViewById(R.id.goto_register);
-        email_editext = findViewById(R.id.email_editext);
-        password_editext = findViewById(R.id.password_editext);
-        ll_progressBar = findViewById(R.id.llProgressBar);
-        email_layout = findViewById(R.id.email_layout);
-        password_layout = findViewById(R.id.password_layout);
+        btn_register = findViewById(R.id.btn_register);
+        goto_loginActivity = findViewById(R.id.goto_login);
+        email_editext = findViewById(R.id.email_editext_register);
+        password_editext = findViewById(R.id.password_editext_register);
+        confirm_password_editext = findViewById(R.id.confirm_password_editext);
+        confirm_password_layout = findViewById(R.id.confirm_password_layout);
+        ll_progressBar = findViewById(R.id.llProgressBar_register);
+        email_layout = findViewById(R.id.email_layout_register);
+        password_layout = findViewById(R.id.password_layout_register);
 
     }
 
-    public void login(){
-        Log.d(TAG, "Login");
+    public void register(){
+        Log.d(TAG, "Register");
         ll_progressBar.setVisibility(View.VISIBLE);
-       // ll_progressBar.setIndeterminate(true);
+        // ll_progressBar.setIndeterminate(true);
         if (!validate()) {
-            onLoginFailed();
+            onRegisterFailed();
             return;
         }
 
@@ -80,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
 
-                        btn_connexion.setEnabled(false);
+                        btn_register.setEnabled(false);
                         User user = new User(email, password);
                         postUser(user);
                         ll_progressBar.setVisibility(View.GONE);
@@ -93,10 +98,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Connexion échouée", Toast.LENGTH_LONG).show();
+    public void onRegisterFailed() {
+        Toast.makeText(getBaseContext(), "Création de compte  échouée", Toast.LENGTH_LONG).show();
         ll_progressBar.setVisibility(View.GONE);
-        btn_connexion.setEnabled(true);
+        btn_register.setEnabled(true);
     }
 
     public boolean validate() {
@@ -104,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
         email = email_editext.getText().toString();
         password = password_editext.getText().toString();
-
+        confirm_password = confirm_password_editext.getText().toString();
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             email_layout.setError(getString(R.string.error_email));
             valid = false;
@@ -119,16 +124,28 @@ public class LoginActivity extends AppCompatActivity {
             password_layout.setError(null);
         }
 
+        if(!password.equals(confirm_password) ){
+            confirm_password_layout.setError(getString(R.string.non_identiques_password));
+            valid = false;
+        } else {
+            confirm_password_layout.setError(null);
+        }
+
         return valid;
     }
 
+
+
+
     public void postUser(User user){
-        apiService.login(user).enqueue(new Callback<User>() {
+        apiService.register(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()){
-                    Log.i(TAG , "POST USER FOR LOGIN " + response.body().toString());
-                    Log.i(TAG , "POST USER FOR LOGIN " + response.code());
+
+                    String email = response.body().getEmail();
+                   Log.i(TAG , "POST USER FOR REGISTER " + email  ) ;
+                    Log.i(TAG , "POST USER FOR REGISTER " + response.code());
                 }
             }
 
@@ -139,6 +156,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
