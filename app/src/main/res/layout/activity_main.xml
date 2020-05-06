@@ -67,7 +67,7 @@
         
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleProduct"
-            android:scrollbars="none"
+            android:scrollbars="vertical"
             android:layout_marginTop="10dp"
             android:layout_below="@id/productList"
             android:layout_marginLeft="8dp"

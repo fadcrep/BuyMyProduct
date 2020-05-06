@@ -1,5 +1,7 @@
 package com.fadcode.buymyproduct;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Product {
 
     private String id;
@@ -34,5 +36,15 @@ public class Product {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", filename='" + filename + '\'' +
+                '}';
     }
 }

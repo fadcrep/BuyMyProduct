@@ -5,11 +5,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +33,29 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleProduct);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        productAdapter = new ProductAdapter();
+
+        getAllProduct();
+    }
+
+    public void getAllProduct(){
+        Call<List<Product>> products = ApiClient.getProductService().getProduct();
+
+        products.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Product>> call, @NotNull Response<List<Product>> response) {
+                if(response.isSuccessful()){
+                    List<Product> productList = response.body();
+                    productAdapter.setData(productList);
+                    recyclerView.setAdapter(productAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Product>> call, @NotNull Throwable t) {
+                Log.e("Failure", Objects.requireNonNull(t.getLocalizedMessage()));
+            }
+        });
     }
 }
