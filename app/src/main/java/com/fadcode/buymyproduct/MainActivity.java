@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
- public class MainActivity extends AppCompatActivity {
+ public class MainActivity extends AppCompatActivity implements ProductAdapter.ClickedItem {
 
     private RecyclerView recyclerView;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -34,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        productAdapter = new ProductAdapter();
+        productAdapter = new ProductAdapter(this::clickedProduct);
 
         getAllProduct();
     }
@@ -58,4 +60,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
             }
         });
     }
-}
+
+     @Override
+     public void clickedProduct(Product product) {
+//        Log.e("Clicked User", product.toString());
+         startActivity(new Intent(this, ProductDetailsActivity.class).putExtra("data", product));
+     }
+ }

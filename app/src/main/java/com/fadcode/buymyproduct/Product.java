@@ -2,7 +2,9 @@ package com.fadcode.buymyproduct;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     private String id;
     private String title;

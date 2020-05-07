@@ -21,9 +21,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private List<Product> productList;
     private Context context;
+    private ClickedItem clickedItem;
 
-    public ProductAdapter(){
-
+    public ProductAdapter(ClickedItem clickedItem){
+        this.clickedItem = clickedItem;
     }
 
     public void setData (List<Product> productList) {
@@ -50,8 +51,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 .centerCrop()
                 .into(holder.imageProduct);
 
+        holder.imageProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedItem.clickedProduct(product);
 
+            }
+        });
+    }
 
+    public interface ClickedItem{
+        public void clickedProduct(Product product);
     }
 
     @Override
@@ -68,18 +78,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
             imageProduct = itemView.findViewById(R.id.imageProduct);
-        }
-    }
-
-    public Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
-                    encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
         }
     }
 }
