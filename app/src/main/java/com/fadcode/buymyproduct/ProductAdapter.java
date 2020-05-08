@@ -7,6 +7,8 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,33 +17,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements Filterable {
 
     private List<Product> productList;
+    private List<Product> productFiltered;
     private Context context;
-    private ClickedItem clickedItem;
+    private ProductsAdapterListener productsAdapterListener;
 
-    public ProductAdapter(ClickedItem clickedItem){
-        this.clickedItem = clickedItem;
+    public ProductAdapter(List<Product> productList, Context context, ProductsAdapterListener productsAdapterListener) {
+        this.productList = productList;
+        this.context = context;
+        this.productFiltered= productList;
+        this.productsAdapterListener = productsAdapterListener;
     }
 
-    public void setData (List<Product> productList) {
+  /*  public void setData (List<Product> productList) {
         this.productList = productList;
         notifyDataSetChanged();
-    }
+    } */
 
-    @NonNull
-    @Override
-    public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        return new ProductAdapter.ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_product, parent, false));
-    }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
-        Product product = productList.get(position);
+    public ProductAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_product, parent, false);
+
+        return new ViewHolder(itemView);
+
+    }
+
+    @Override
+    public void onBindViewHolder(ProductAdapter.ViewHolder holder, int position) {
+        final Product product = productFiltered.get(position);
 
         String productName = product.getTitle();
         holder.productName.setText(productName);
@@ -51,22 +61,60 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 .centerCrop()
                 .into(holder.imageProduct);
 
-        holder.imageProduct.setOnClickListener(new View.OnClickListener() {
+      /*  holder.imageProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickedItem.clickedProduct(product);
 
             }
-        });
+        }); */
     }
 
-    public interface ClickedItem{
-        public void clickedProduct(Product product);
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+                if (charString.isEmpty()){
+
+                    productFiltered=productList;
+                } else{
+                    List<Product> filteredList = new ArrayList<>();
+
+                    for(Product row: productList){
+
+                        if(row.getTitle().toLowerCase().contains(charString.toLowerCase())||
+                                row.getId().contains(charSequence)){
+                            filteredList.add(row);
+                        }
+                    }
+
+                    productFiltered=filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values=productFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                productFiltered= (ArrayList<Product>) filterResults.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
+
+    public interface ProductsAdapterListener {
+        void onProductSelected(Product product);
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return productFiltered.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,10 +122,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView productName;
         ImageView imageProduct;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder( View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
             imageProduct = itemView.findViewById(R.id.imageProduct);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    productsAdapterListener.onProductSelected(productFiltered.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

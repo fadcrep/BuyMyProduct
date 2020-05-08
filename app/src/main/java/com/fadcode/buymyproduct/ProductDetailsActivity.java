@@ -26,8 +26,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             product = (Product) intent.getSerializableExtra("data");
-
-//            String image = product.getFilename();
             String title = product.getTitle();
             productName.setText(title);
             Picasso.get()

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BuyMyProduct</string>
+    <string name="Search_product">Rechercher un produit</string>
+    <string name="search">Recherche</string>
 </resources>
