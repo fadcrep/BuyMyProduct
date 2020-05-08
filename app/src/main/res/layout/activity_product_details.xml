@@ -24,6 +24,7 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/carviewID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="11dp"
@@ -51,6 +52,20 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Ajout maybe -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleComment"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/carviewID"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="45dp"
+        android:scrollbars="vertical" />
 
     <TextView
         android:padding="10dp"

@@ -20,4 +20,11 @@ public class ApiClient {
         return productService;
     }
 
+
+//    Ajout maybe
+    public static ProductService getComment(String productId){
+        ProductService productService = getRetrofit().create(ProductService.class);
+        return productService;
+    }
+
 }
