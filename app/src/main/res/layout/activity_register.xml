@@ -25,11 +25,11 @@
                 android:fontFamily="@font/roboto_slab"
                 android:text="@string/register_header_text" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_register_hero"
+                android:background="@drawable/ic_register_hero"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

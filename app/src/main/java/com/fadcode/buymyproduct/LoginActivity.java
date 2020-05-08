@@ -6,38 +6,44 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fadcode.buymyproduct.Api.ApiService;
-import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG= "LoginActivity";
-    private ApiService apiService;
+    private static final String TAG = "LoginActivity";
+    private Retrofit retrofit;
     MaterialButton btn_connexion;
     View ll_progressBar;
     private String email;
     private String password;
     TextInputLayout email_layout, password_layout;
-
     MaterialTextView goto_registerActivity;
-    TextInputEditText email_editext , password_editext;
+    TextInputEditText email_editext, password_editext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        apiService = ApiUtils.getAPIService();
         findViewById();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.vasedhonneurofficiel.com/ws/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         btn_connexion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+
+
     }
 
-    public void findViewById(){
+    public void findViewById() {
 
         btn_connexion = findViewById(R.id.btn_connexion);
         goto_registerActivity = findViewById(R.id.goto_register);
@@ -66,30 +74,25 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void login(){
+    public void login() {
         Log.d(TAG, "Login");
         ll_progressBar.setVisibility(View.VISIBLE);
-       // ll_progressBar.setIndeterminate(true);
+        // ll_progressBar.setIndeterminate(true);
         if (!validate()) {
             onLoginFailed();
             return;
         }
-
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-
                         btn_connexion.setEnabled(false);
-                        User user = new User(email, password);
-                        postUser(user);
+                        Log.i("email", " " + email);
+                        Log.i("password", " " + password);
+                        authenticateUser(email, password);
                         ll_progressBar.setVisibility(View.GONE);
-
                     }
                 }, 3000);
-
-
-
 
     }
 
@@ -101,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validate() {
         boolean valid = true;
-
         email = email_editext.getText().toString();
         password = password_editext.getText().toString();
 
@@ -122,23 +124,51 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void postUser(User user){
-        apiService.login(user).enqueue(new Callback<User>() {
+
+    public void authenticateUser(String email, String password) {
+
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call <List<User>> call = apiService.login(email, password);
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("TAG_APP", "INFO ! " + response.code());
+                    return;
+                }
+
+                List<User> users = response.body();
+                User currentUser = users.get(0);
+
+                Log.i("TAG_APP", "USER_EMAIL: " + currentUser.getEmail());
+                Log.i("TAG_APP", "ID : " + currentUser.getId());
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.i("TAG_APP", "FAILURE " + t.toString());
+            }
+        });
+        /*call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()){
-                    Log.i(TAG , "POST USER FOR LOGIN " + response.body().toString());
-                    Log.i(TAG , "POST USER FOR LOGIN " + response.code());
+                if (!response.isSuccessful()) {
+                    Log.i("TAG_APP", "INFO ! " + response.code());
+                    return;
                 }
+
+                User user = response.body();
+
+                Log.i("TAG_APP", "USER_EMAIL: " + user.getEmail());
+                Log.i("TAG_APP", "ID : " + user.getId());
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API." + t.toString());
-
+                Log.i("TAG_APP", "FAILURE " + t.toString());
             }
-        });
-    }
+        });*/
 
+    }
 
 }

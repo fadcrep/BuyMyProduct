@@ -9,21 +9,23 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fadcode.buymyproduct.Api.ApiService;
-import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG= "RegisterActivity";
-    private ApiService apiService;
+    private Retrofit retrofit;
     MaterialButton btn_register;
     View ll_progressBar;
     private String email;
@@ -40,8 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        apiService = ApiUtils.getAPIService();
+       // apiService = ApiUtils.getAPIService();
         findViewById();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.vasedhonneurofficiel.com/ws/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,17 +91,13 @@ public class RegisterActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-
                         btn_register.setEnabled(false);
-                        User user = new User(email, password);
-                        postUser(user);
+                      //  User user = new User(email, password);
+                       // postUser(user);
+                        createUser(email,password);
                         ll_progressBar.setVisibility(View.GONE);
-
                     }
                 }, 3000);
-
-
-
 
     }
 
@@ -134,18 +137,26 @@ public class RegisterActivity extends AppCompatActivity {
         return valid;
     }
 
-
-
-
-    public void postUser(User user){
+    /*public void postUser(User user){
         apiService.register(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()){
 
-                    String email = response.body().getEmail();
-                   Log.i(TAG , "POST USER FOR REGISTER " + email  ) ;
-                    Log.i(TAG , "POST USER FOR REGISTER " + response.code());
+                    if(response.body()!=null){
+                        try {
+                            JSONObject user = new JSONObject(String.valueOf(response.body()));
+                            Log.i(TAG , "POST USER FOR REGISTER " ) ;
+
+                            Log.i(TAG , "POST USER FOR REGISTER " + response.code());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+
                 }
             }
 
@@ -153,6 +164,31 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<User> call, Throwable t) {
                 Log.e(TAG, "Unable to submit post to API." + t.toString());
 
+            }
+        });
+    } */
+
+    public void createUser(String email, String password){
+
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<User> call = apiService.register(email,password);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    Log.i("TAG_APP", "INFO ! "+response.code());
+                    return;
+                }
+                User user = response.body();
+
+                Log.i("TAG_APP", "USER_EMAIL: "+user.getEmail());
+                Log.i("TAG_APP", "ID : "+user.getId());
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i("TAG_APP", "FAILURE");
             }
         });
     }
