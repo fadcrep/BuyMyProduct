@@ -1,7 +1,9 @@
 package com.fadcode.buymyproduct.Views;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,11 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.fadcode.buymyproduct.Api.ApiUtils;
@@ -37,6 +40,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
     private Context context;
+    RecyclerView.LayoutManager mLayoutManager;
 
     ImageView imageProduct;
     TextView productName;
@@ -63,6 +67,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         floating_action_button = findViewById(R.id.floating_action_button);
 
+
+
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             product = (Product) intent.getSerializableExtra("data");
@@ -74,10 +80,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     .centerCrop()
                     .into(imageProduct);
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(mLayoutManager);
             commentList = new ArrayList<>();
             commentAdapter = new CommentAdapter(commentList, this);
             recyclerView.setAdapter(commentAdapter);
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(ProductDetailsActivity.this, 1);
+            recyclerView.addItemDecoration(mDividerItemDecoration);
 
             getComments(product.getId());
 
@@ -86,8 +95,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createComment(product.getId(), "lola22@mail.com", "tres belle photo-image");
-                getComments(product.getId());
+                myCustomDialog();
             }
         });
 
@@ -146,5 +154,49 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void myCustomDialog(){
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_comment, null);
+
+        final EditText editText =  dialogView.findViewById(R.id.comment_editext);
+        Button btn_submit =  dialogView.findViewById(R.id.buttonSubmit);
+        Button btn_cancel = dialogView.findViewById(R.id.buttonCancel);
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String content = editText.getText().toString().trim();
+                Log.i("tag content", content);
+                if(content.isEmpty()){
+                    editText.setError(getString(R.string.add_comment_text));
+                } else {
+                    createComment(product.getId(), "lola22@mail.com", content);
+                    refresh_recycler_view();
+                    editText.setText("");
+                }
+
+
+
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DO SOMETHINGS
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+    }
+
+   private void refresh_recycler_view(){
+       getComments(product.getId());
+       commentAdapter.notifyDataSetChanged();
+   }
 }
 

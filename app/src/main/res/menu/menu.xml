@@ -26,4 +26,9 @@
         android:title="@string/profile_text"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/deconnectMenu"
+        android:title="@string/deconnexion"
+        app:showAsAction="never" />
+
 </menu>

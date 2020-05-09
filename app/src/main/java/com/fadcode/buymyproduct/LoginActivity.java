@@ -2,7 +2,9 @@ package com.fadcode.buymyproduct;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,8 @@ import com.fadcode.buymyproduct.Api.ApiService;
 import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -26,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
+    Context context;
     MaterialButton btn_connexion;
     View ll_progressBar;
     private String email;
@@ -77,22 +82,25 @@ public class LoginActivity extends AppCompatActivity {
             onLoginFailed();
             return;
         }
+        btn_connexion.setEnabled(false);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        btn_connexion.setEnabled(false);
+
                         Log.i("email", " " + email);
                         Log.i("password", " " + password);
                         authenticateUser(email, password);
                         ll_progressBar.setVisibility(View.GONE);
+
+
                     }
                 }, 3000);
 
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Connexion échouée", Toast.LENGTH_LONG).show();
+       // Toast.makeText(getBaseContext(), "Connexion échouée", Toast.LENGTH_LONG).show();
         ll_progressBar.setVisibility(View.GONE);
         btn_connexion.setEnabled(true);
     }
@@ -128,43 +136,34 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
 
-                    Log.i("TAG_APP", "INFO ! " + response.code());
+                    Log.i("TAG_APP 1", "INFO ! " + response.code() + " 229");
                     return;
                 }
-
+                Log.i("TAG_APP 2", "INFO ! " + response.code() + " 228");
                 List<User> users = response.body();
                 User currentUser = users.get(0);
 
-                Log.i("TAG_APP", "USER_EMAIL: " + currentUser.getEmail());
-                Log.i("TAG_APP", "ID : " + currentUser.getId());
+                Log.i("TAG_APP 3", "USER_EMAIL: " + currentUser.getEmail());
+                Log.i("TAG_APP 4", "ID : " + currentUser.getId());
+                SharedPreferences preferences =  getApplicationContext().getSharedPreferences("MY_PREF", 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString( "user_email",currentUser.getEmail());
+                editor.commit();
 
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.i("TAG_APP", "FAILURE " + t.toString());
+                Log.i("TAG_APP 5", "FAILURE " + t.toString());
+                Snackbar.make(btn_connexion, R.string.connexion_failed_text, Snackbar.LENGTH_SHORT)
+                        .show();
+
+                btn_connexion.setEnabled(true);
+
             }
         });
-        /*call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (!response.isSuccessful()) {
-                    Log.i("TAG_APP", "INFO ! " + response.code());
-                    return;
-                }
 
-                User user = response.body();
-
-                Log.i("TAG_APP", "USER_EMAIL: " + user.getEmail());
-                Log.i("TAG_APP", "ID : " + user.getId());
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.i("TAG_APP", "FAILURE " + t.toString());
-            }
-        });*/
 
     }
 

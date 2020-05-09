@@ -9,6 +9,7 @@
  import android.app.SearchManager;
  import android.content.Context;
  import android.content.Intent;
+ import android.content.SharedPreferences;
  import android.graphics.Color;
  import android.os.Build;
  import android.os.Bundle;
@@ -40,10 +41,14 @@
  public class MainActivity extends AppCompatActivity implements ProductAdapter.ProductsAdapterListener{
 
      private RecyclerView recyclerView;
+     Menu menu;
+     SharedPreferences preferences;
      private StaggeredGridLayoutManager staggeredGridLayoutManager;
      private ProductAdapter productAdapter;
      private List<Product> productList;
      private SearchView searchView;
+     private MenuItem profileMenuItem, loginMenuItem, registerMenuItem, deconectMenuItem;
+     String textUser = "user_email";
 
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +58,11 @@
          setSupportActionBar(toolbar);
 
          // toolbar fancy stuff
-         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          getSupportActionBar().setTitle(R.string.app_name);
+         invalidateOptionsMenu();
 
+         preferences = getApplicationContext().getSharedPreferences("MY_PREF",0);
          recyclerView = findViewById(R.id.recycleProduct);
          staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
          recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -95,6 +102,26 @@
      public boolean onCreateOptionsMenu(Menu menu) {
          getMenuInflater().inflate(R.menu.menu, menu);
 
+         profileMenuItem =   menu.findItem(R.id.profilMenu);
+         loginMenuItem = menu.findItem(R.id.loginMenu);
+         registerMenuItem = menu.findItem(R.id.registerMenu);
+         deconectMenuItem = menu.findItem(R.id.deconnectMenu);
+
+         String mypref = preferences.getString("user_email", null);
+         if(mypref != null){
+             Log.i("shareprefs","hello" );
+             profileMenuItem.setVisible(true);
+             deconectMenuItem.setVisible(true);
+             loginMenuItem.setVisible(false);
+             registerMenuItem.setVisible(false);
+         }else {
+             Log.i("shareprefs","hello2" );
+             profileMenuItem.setVisible(false);
+             deconectMenuItem.setVisible(false);
+             loginMenuItem.setVisible(true);
+             registerMenuItem.setVisible(true);
+         }
+
          // Associate searchable configuration with the SearchView
          SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
          searchView = (SearchView) menu.findItem(R.id.action_search)
@@ -122,6 +149,8 @@
          return true;
      }
 
+
+
      @Override
      public boolean onOptionsItemSelected(MenuItem item) {
          // Handle action bar item clicks here. The action bar will
@@ -144,6 +173,12 @@
              case R.id.profilMenu:
                  startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                  break;
+
+             case R.id.deconnectMenu:
+                 deconnectUser();
+                 break;
+
+
          }
 
          //noinspection SimplifiableIfStatement
@@ -163,6 +198,14 @@
      @Override
      public void onProductSelected(Product product) {
          startActivity(new Intent(this, ProductDetailsActivity.class).putExtra("data", product));
+     }
+
+
+    private void deconnectUser(){
+
+         SharedPreferences.Editor editor = preferences.edit();
+         editor.remove(textUser);
+         editor.commit();
      }
  }
 

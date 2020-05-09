@@ -4,4 +4,5 @@
     <dimen name="headerTextSize">25sp</dimen>
     <dimen name="layout_padding_8dp">8dp</dimen>
     <dimen name="login_connexion_btn_text">25sp</dimen>
+    <dimen name="space_8">8dp</dimen>
 </resources>

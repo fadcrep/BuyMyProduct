@@ -1,27 +1,21 @@
 package com.fadcode.buymyproduct;
 
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.fadcode.buymyproduct.Api.ApiService;
 import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -81,12 +75,12 @@ public class RegisterActivity extends AppCompatActivity {
             onRegisterFailed();
             return;
         }
-
+        btn_register.setEnabled(false);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        btn_register.setEnabled(false);
+
                       //  User user = new User(email, password);
                        // postUser(user);
                         createUser(email,password);
@@ -97,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onRegisterFailed() {
-        Toast.makeText(getBaseContext(), "Création de compte  échouée", Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getBaseContext(), "Création de compte  échouée", Toast.LENGTH_LONG).show();
         ll_progressBar.setVisibility(View.GONE);
         btn_register.setEnabled(true);
     }
@@ -132,58 +126,49 @@ public class RegisterActivity extends AppCompatActivity {
         return valid;
     }
 
-    /*public void postUser(User user){
-        apiService.register(user).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()){
-
-                    if(response.body()!=null){
-                        try {
-                            JSONObject user = new JSONObject(String.valueOf(response.body()));
-                            Log.i(TAG , "POST USER FOR REGISTER " ) ;
-
-                            Log.i(TAG , "POST USER FOR REGISTER " + response.code());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
 
-                    }
-
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API." + t.toString());
-
-            }
-        });
-    } */
-
-    public void createUser(String email, String password){
+    public void createUser(String email, final String password){
 
         Call<User> call = ApiUtils.getApiService().register(email,password);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(!response.isSuccessful()){
-                    Log.i("TAG_APP", "INFO ! "+response.code());
+                if(response.isSuccessful()){
+                    if(response.body().getEmail() != null){
+
+                        User user = response.body();
+                        emptyEditext();
+                        Log.i("TAG_APP 7", "INFO ! " + user.getEmail());
+                        Snackbar.make(btn_register,  R.string.User_created_sucessfull_text, Snackbar.LENGTH_LONG).show();
+                        btn_register.setEnabled(true);
+                        return;
+                    }
+
+                    Snackbar.make(btn_register,  R.string.User_exist_text, Snackbar.LENGTH_LONG).show();
+                    btn_register.setEnabled(true);
                     return;
                 }
-                User user = response.body();
 
-                Log.i("TAG_APP", "USER_EMAIL: "+user.getEmail());
-                Log.i("TAG_APP", "ID : "+user.getId());
+
+                Log.i("TAG_APP", "is not successfull");
+                //Snackbar.make(btn_register, R.string.User_exist_text, Snackbar.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.i("TAG_APP", "FAILURE");
+
+                Log.i("TAG_APP 4", "INFO ! " + t.toString());
             }
         });
     }
+
+    public void emptyEditext() {
+        email_editext.setText("");
+        password_editext.setText("");
+        confirm_password_editext.setText("");
+    }
+
+
 }

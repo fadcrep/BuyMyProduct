@@ -19,4 +19,13 @@
     <string name="inscription_text">Inscription</string>
     <string name="profile_text">Profile</string>
     <string name="product_detail_title">Detail du produit</string>
+    <string name="connexion_failed_text">Connexion échouée</string>
+    <string name="User_exist_text">Cet Utilisateur existe déja</string>
+    <string name="User_created_sucessfull_text">Compte créé avec Succès</string>
+    <string name="label_report">Ajouter un commentaire</string>
+    <string name="label_type_your_comment">Votre commentaire ici</string>
+    <string name="label_submit">Envoyer</string>
+    <string name="label_cancel">Annuler</string>
+    <string name="add_comment_text">Veillez Ajouter un commentaire</string>
+    <string name="deconnexion">Deconnexion</string>
 </resources>
