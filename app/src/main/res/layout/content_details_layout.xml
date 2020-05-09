@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.ProductDetailsActivity">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/carviewID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageProduct"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop" />
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textSize="19sp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Ajout maybe -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleComment"
+        android:layout_width="287dp"
+        android:layout_height="201dp"
+        android:layout_below="@id/carviewID"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="45dp"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>

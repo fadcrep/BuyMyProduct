@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fadcode.buymyproduct.Api.ApiService;
+import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private Retrofit retrofit;
     MaterialButton btn_connexion;
     View ll_progressBar;
     private String email;
@@ -40,12 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         findViewById();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.vasedhonneurofficiel.com/ws/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        btn_connexion.setOnClickListener(new View.OnClickListener() {
+       btn_connexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 login();
@@ -127,12 +122,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void authenticateUser(String email, String password) {
 
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call <List<User>> call = apiService.login(email, password);
+        Call <List<User>> call = ApiUtils.getApiService().login(email, password);
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
+
                     Log.i("TAG_APP", "INFO ! " + response.code());
                     return;
                 }
@@ -142,6 +137,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.i("TAG_APP", "USER_EMAIL: " + currentUser.getEmail());
                 Log.i("TAG_APP", "ID : " + currentUser.getId());
+
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override

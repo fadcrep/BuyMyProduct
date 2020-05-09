@@ -13,4 +13,10 @@
     <string name="oto_login_activity_text">Déja un compte? Connexion</string>
     <string name="confirm_password_text">Confirmer password</string>
     <string name="non_identiques_password">Password non identiques</string>
+    <string name="Search_product">Rechercher un produit</string>
+    <string name="search">Recherche</string>
+    <string name="login_text">Login</string>
+    <string name="inscription_text">Inscription</string>
+    <string name="profile_text">Profile</string>
+    <string name="product_detail_title">Detail du produit</string>
 </resources>

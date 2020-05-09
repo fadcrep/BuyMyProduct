@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fadcode.buymyproduct.Api.ApiService;
+import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG= "RegisterActivity";
-    private Retrofit retrofit;
     MaterialButton btn_register;
     View ll_progressBar;
     private String email;
@@ -44,11 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
 
        // apiService = ApiUtils.getAPIService();
         findViewById();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.vasedhonneurofficiel.com/ws/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,8 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void createUser(String email, String password){
 
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<User> call = apiService.register(email,password);
+        Call<User> call = ApiUtils.getApiService().register(email,password);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
