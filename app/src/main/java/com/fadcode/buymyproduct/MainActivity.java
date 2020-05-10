@@ -118,6 +118,7 @@
                      productDatabaseList =  new ArrayList<>(productList.subList(0, 13)) ;
                      Log.i("TAG_APP_DATABASE", productDatabaseList.get(12).getId());
                      productAdapter.notifyDataSetChanged();
+                     Log.i("database size", String.valueOf(databaseHelper.productListFromSQLite().size()));
                      if(databaseHelper.productListFromSQLite().size()<0){
                          databaseHelper.addProductFromSQLite((ArrayList<Product>) productDatabaseList);
                          productAdapter.notifyDataSetChanged();
