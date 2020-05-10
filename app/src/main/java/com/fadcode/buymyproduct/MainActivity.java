@@ -5,6 +5,7 @@
  import androidx.appcompat.widget.Toolbar;
  import androidx.recyclerview.widget.RecyclerView;
  import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
  import android.app.SearchManager;
  import android.content.Context;
@@ -49,6 +50,7 @@
      private RecyclerView recyclerView;
      Menu menu;
      SharedPreferences preferences;
+     SwipeRefreshLayout swipeRefreshLayout;
      private StaggeredGridLayoutManager staggeredGridLayoutManager;
      private ProductAdapter productAdapter;
      private List<Product> productList;
@@ -72,6 +74,17 @@
        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          getSupportActionBar().setTitle(R.string.app_name);
          invalidateOptionsMenu();
+         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+
+         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+             @Override
+             public void onRefresh() {
+                 if(checkConnectivity()){
+                     getAllProduct();
+                     productAdapter.notifyDataSetChanged();
+                 }
+             }
+         });
 
          preferences = getApplicationContext().getSharedPreferences("MY_PREF",0);
          recyclerView = findViewById(R.id.recycleProduct);
