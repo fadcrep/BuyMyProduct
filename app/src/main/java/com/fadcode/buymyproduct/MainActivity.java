@@ -82,6 +82,13 @@
                  if(checkConnectivity()){
                      getAllProduct();
                      productAdapter.notifyDataSetChanged();
+                     if(swipeRefreshLayout.isRefreshing()){
+                         swipeRefreshLayout.setRefreshing(false);
+                     }
+                 } else {
+                     if(swipeRefreshLayout.isRefreshing()){
+                         swipeRefreshLayout.setRefreshing(false);
+                     }
                  }
              }
          });
