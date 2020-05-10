@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +40,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
+    SharedPreferences preferences;
     private Context context;
+    View ll_progressBar;
     RecyclerView.LayoutManager mLayoutManager;
 
     ImageView imageProduct;
@@ -62,10 +65,16 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         imageProduct = findViewById(R.id.imageProduct);
         productName = findViewById(R.id.productName);
-
+        ll_progressBar = findViewById(R.id.llProgressBar);
         recyclerView = findViewById(R.id.recycleComment);
 
         floating_action_button = findViewById(R.id.floating_action_button);
+        preferences = getApplicationContext().getSharedPreferences("MY_PREF", 0);
+        if(preferences.getString("user_email", null) == null){
+            floating_action_button.setEnabled(false);
+
+        }
+
 
 
 
@@ -96,6 +105,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myCustomDialog();
+
             }
         });
 
@@ -195,8 +205,21 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
    private void refresh_recycler_view(){
-       getComments(product.getId());
-       commentAdapter.notifyDataSetChanged();
+
+       new android.os.Handler().postDelayed(
+               new Runnable() {
+                   public void run() {
+                       // On complete call either onLoginSuccess or onLoginFailed
+
+                       getComments(product.getId());
+                       commentAdapter.notifyDataSetChanged();
+
+
+
+                   }
+               }, 2000);
+
+
    }
 }
 

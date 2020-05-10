@@ -149,7 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString( "user_email",currentUser.getEmail());
                 editor.commit();
-
+                btn_connexion.setEnabled(true);
+                email_editext.setText("");
+                password_editext.setText("");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 

@@ -31,4 +31,9 @@
         android:title="@string/deconnexion"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/listProductMenu"
+        android:title="@string/products_list"
+        app:showAsAction="never" />
+
 </menu>
