@@ -8,6 +8,7 @@ import com.fadcode.buymyproduct.Views.ProductDetailsActivity;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -46,5 +47,15 @@ public interface ApiService {
                                                @Field("email") String email,
                                                @Field("content") String content);
 
+    @FormUrlEncoded
+    @POST("modifyUserAccount.php")
+    Call<User> updateUser(@Field("id") String id,
+                          @Field("name") String name,
+                          @Field("email") String email,
+                          @Field("password") String password
+            );
+
+    @POST("modifyUserAccount.php")
+    Call<User> updateUserWithBody(@Body() User user);
 
 }

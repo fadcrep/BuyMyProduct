@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Views.ProfileActivity"></activity>
+        <activity android:name=".Views.ProfileActivity"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
         <activity android:name=".Views.ProductDetailsActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".RegisterActivity" />

@@ -98,7 +98,7 @@
          staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
          recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-         whiteNotificationBar(recyclerView);
+
          productDatabaseList = new ArrayList<>();
          productList = new ArrayList<>();
          List<Product> listProductFromQuery = databaseHelper.productListFromSQLite();
@@ -263,15 +263,6 @@
      }
 
 
-
-     private void whiteNotificationBar(View view) {
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-             int flags = view.getSystemUiVisibility();
-             flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-             view.setSystemUiVisibility(flags);
-             getWindow().setStatusBarColor(Color.WHITE);
-         }
-     }
 
      @Override
      public void onProductSelected(Product product) {
