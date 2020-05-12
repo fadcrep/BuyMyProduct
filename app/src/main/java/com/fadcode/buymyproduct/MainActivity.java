@@ -56,7 +56,7 @@
      private List<Product> productList;
      private SearchView searchView;
      private MenuItem profileMenuItem, loginMenuItem, registerMenuItem,
-             deconectMenuItem, productListMenuItem;
+             deconectMenuItem, productListMenuItem, productFavoriteProductMenuItem;
      String textUser = "user_email";
      String currentClass = "com.fadcode.buymyproduct.MainActivity";
      DatabaseHelper databaseHelper;
@@ -160,7 +160,6 @@
          });
      }
 
-
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
          getMenuInflater().inflate(R.menu.menu, menu);
@@ -170,12 +169,14 @@
          registerMenuItem = menu.findItem(R.id.registerMenu);
          deconectMenuItem = menu.findItem(R.id.deconnectMenu);
          productListMenuItem = menu.findItem(R.id.listProductMenu);
+         productFavoriteProductMenuItem = menu.findItem(R.id.listFavoriteProductMenu);
 
          String mypref = preferences.getString("user_email", null);
          if(mypref != null){
              Log.i("shareprefs","hello" );
              profileMenuItem.setVisible(true);
              deconectMenuItem.setVisible(true);
+             productFavoriteProductMenuItem.setVisible(true);
              productListMenuItem.setVisible(false);
              loginMenuItem.setVisible(false);
              registerMenuItem.setVisible(false);
@@ -186,6 +187,7 @@
              productListMenuItem.setVisible(true);
              loginMenuItem.setVisible(true);
              registerMenuItem.setVisible(true);
+             productFavoriteProductMenuItem.setVisible(true);
 
              Log.i("app_1" , getClass().getName());
              Log.i("app_2" , currentClass);
@@ -226,8 +228,6 @@
          return true;
      }
 
-
-
      @Override
      public boolean onOptionsItemSelected(MenuItem item) {
          // Handle action bar item clicks here. The action bar will
@@ -254,7 +254,9 @@
              case R.id.deconnectMenu:
                  deconnectUser();
                  break;
-
+             case R.id.listFavoriteProductMenu:
+                 startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                 break;
 
          }
 
@@ -262,13 +264,10 @@
         return super.onOptionsItemSelected(item);
      }
 
-
-
      @Override
      public void onProductSelected(Product product) {
          startActivity(new Intent(this, ProductDetailsActivity.class).putExtra("data", product));
      }
-
 
     private void deconnectUser(){
 

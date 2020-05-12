@@ -30,4 +30,10 @@
     <string name="deconnexion">Deconnexion</string>
     <string name="products_list">Liste des produits</string>
     <string name="Add_one_value_please">Veuillez modifier au moins une valeur</string>
+    <string name="favorite_list">Liste des Favoris</string>
+    <string name="add_product_in_favoris">Ajouter produit aux Favoris?</string>
+    <string name="cancel_favorite">Annuler</string>
+    <string name="add_product_to_favorite">Ajouter</string>
+    <string name="favorite_Product_text">Produits Favoris</string>
+    <string name="delete_product_favorite">Supprimez ce produit ?</string>
 </resources>

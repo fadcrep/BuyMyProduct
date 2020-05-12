@@ -2,6 +2,8 @@ package com.fadcode.buymyproduct.Views.Adapter;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -12,12 +14,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fadcode.buymyproduct.DatabaseHelper;
 import com.fadcode.buymyproduct.Model.Product;
 import com.fadcode.buymyproduct.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +34,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private List<Product> productFiltered;
     private Context context;
     private ProductsAdapterListener productsAdapterListener;
+    DatabaseHelper databaseHelper;
 
     public ProductAdapter(List<Product> productList, Context context, ProductsAdapterListener productsAdapterListener) {
         this.productList = productList;
@@ -124,11 +130,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         TextView productName;
         ImageView imageProduct;
+        ImageView imageFavorite;
 
         public ViewHolder( View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
             imageProduct = itemView.findViewById(R.id.imageProduct);
+            imageFavorite = itemView.findViewById(R.id.imageFavorite);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,7 +144,57 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     productsAdapterListener.onProductSelected(productFiltered.get(getAdapterPosition()));
                 }
             });
+            databaseHelper = new DatabaseHelper(context);
+           final SharedPreferences preferences = context.getSharedPreferences("MY_PREF", 0);
+            if(preferences != null){
+                imageFavorite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context);
+                        materialAlertDialogBuilder
+                                 .setTitle(R.string.add_product_in_favoris)
+                                 .setPositiveButton(R.string.add_product_to_favorite, new DialogInterface.OnClickListener() {
+                                     @Override
+                                     public void onClick(DialogInterface dialog, int which) {
+                                         Toast.makeText(context, "nPositive button", Toast.LENGTH_SHORT).show();
+                                         Product product = productFiltered.get(getAdapterPosition());
+                                         if(product.getId() != null){
+                                             databaseHelper.addProductToFavorite(productFiltered.get(getAdapterPosition()));
+                                             imageFavorite.setVisibility(View.INVISIBLE);
+                                             dialog.dismiss();
+                                         }
+
+                                     }
+                                 })
+                                 .setNegativeButton(R.string.cancel_favorite, new DialogInterface.OnClickListener() {
+                                     @Override
+                                     public void onClick(DialogInterface dialog, int which) {
+                                         Toast.makeText(context, "Negative button", Toast.LENGTH_SHORT).show();
+                                     }
+                                 })
+                                .show();
+
+
+
+                        }
+
+
+                            // Respond to neutral button press
+
+
+                });
+
+
+            } else {
+                imageFavorite.setVisibility(View.INVISIBLE);
+            }
+
+
+
+
+
         }
     }
+
 }
 

@@ -56,6 +56,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
+    public ArrayList<Product> favoriteProductList(){
+        ArrayList<Product> products = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+NOM_TABLE_FAVORITE, null);
+        if (cursor != null && cursor.getCount() > 0){
+            while(cursor.moveToNext()){
+                String productId = cursor.getString(0);
+                String titleProduct = cursor.getString(1);
+                String filenameProduct = cursor.getString(2);
+                products.add(new Product(productId, titleProduct, filenameProduct));
+            }
+        }
+        return products;
+    }
+
     public boolean addProductFromSQLite(ArrayList<Product> products){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = 0;
@@ -71,7 +86,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        return !(result == -1);
     }
 
-    public boolean addProductTofavorite(Product product){
-        return true;
+    public boolean addProductToFavorite(Product product){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ID, product.getId());
+        contentValues.put(TITLE, product.getTitle());
+        contentValues.put(FILENAME, product.getFilename());
+
+        long result = db.insert(NOM_TABLE_FAVORITE, null, contentValues);
+        db.close();
+        return !(result == -1);
+    }
+
+    public boolean deleteProductToFavorite(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(NOM_TABLE_FAVORITE, "id = ?", new String[]{""+id});
+        return (result > 0);
     }
 }
