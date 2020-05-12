@@ -10,11 +10,13 @@ import androidx.annotation.Nullable;
 
 import com.fadcode.buymyproduct.Model.Product;
 import com.fadcode.buymyproduct.Variable.Variable;
+import com.fadcode.buymyproduct.Views.ProfileActivity;
 
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NOM_TABLE = "product";
+    private static final String NOM_TABLE_FAVORITE = "favoris";
 
     private static final int NUMERO_VERSION = 1 ;
 
@@ -30,12 +32,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+NOM_TABLE+ "(ID TEXT PRIMARY KEY, TITLE TEXT, FILENAME TEXT)");
-
+        db.execSQL("CREATE TABLE "+NOM_TABLE_FAVORITE+ "(ID TEXT PRIMARY KEY, TITLE TEXT, FILENAME TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+NOM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+NOM_TABLE_FAVORITE);
     }
 
     public ArrayList<Product> productListFromSQLite(){
@@ -66,5 +69,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
        db.close();
        return !(result == -1);
+    }
+
+    public boolean addProductTofavorite(Product product){
+        return true;
     }
 }

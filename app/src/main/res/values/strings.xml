@@ -29,4 +29,5 @@
     <string name="add_comment_text">Veillez Ajouter un commentaire</string>
     <string name="deconnexion">Deconnexion</string>
     <string name="products_list">Liste des produits</string>
+    <string name="Add_one_value_please">Veuillez modifier au moins une valeur</string>
 </resources>

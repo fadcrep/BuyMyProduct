@@ -75,9 +75,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         }
 
-
-
-
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             product = (Product) intent.getSerializableExtra("data");
@@ -183,9 +180,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 if(content.isEmpty()){
                     editText.setError(getString(R.string.add_comment_text));
                 } else {
-                    createComment(product.getId(), "lola22@mail.com", content);
-                    refresh_recycler_view();
-                    editText.setText("");
+                    SharedPreferences preferences = getApplicationContext()
+                            .getSharedPreferences("MY_PREF",0);
+                    if(preferences  != null){
+                        createComment(product.getId(), preferences.getString("user_email", null), content);
+                        refresh_recycler_view();
+                        editText.setText("");
+                    }
+
                 }
 
 

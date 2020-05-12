@@ -13,16 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Views.ProfileActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
-        <activity android:name=".Views.ProductDetailsActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".FavoriteActivity"></activity>
+        <activity
+            android:name=".Views.ProfileActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".Views.ProductDetailsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="android.app.searchable"
@@ -33,7 +32,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
