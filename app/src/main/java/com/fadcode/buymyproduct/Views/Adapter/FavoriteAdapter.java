@@ -1,9 +1,7 @@
 package com.fadcode.buymyproduct.Views.Adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +82,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                                     Product product = productListFavorite.get(getAdapterPosition());
                                     if (product.getId() != null) {
                                         databaseHelper.deleteProductToFavorite(product.getId());
+                                        productListFavorite.remove(getAdapterPosition());
                                         dialog.dismiss();
-                                        notifyDataSetChanged();
-                                        databaseHelper.favoriteProductList();
+                                        notifyItemRemoved(getAdapterPosition());
+                                       // notifyItemRangeChanged(getAdapterPosition(), );
+                                       // databaseHelper.favoriteProductList();
                                     }
 
                                 }

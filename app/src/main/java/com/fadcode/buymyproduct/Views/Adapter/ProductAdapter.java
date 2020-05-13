@@ -4,9 +4,7 @@ package com.fadcode.buymyproduct.Views.Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fadcode.buymyproduct.DatabaseHelper;
@@ -150,48 +146,60 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 imageFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context);
-                        materialAlertDialogBuilder
-                                 .setTitle(R.string.add_product_in_favoris)
-                                 .setPositiveButton(R.string.add_product_to_favorite, new DialogInterface.OnClickListener() {
-                                     @Override
-                                     public void onClick(DialogInterface dialog, int which) {
-                                         Toast.makeText(context, "nPositive button", Toast.LENGTH_SHORT).show();
-                                         Product product = productFiltered.get(getAdapterPosition());
-                                         if(product.getId() != null){
-                                             databaseHelper.addProductToFavorite(productFiltered.get(getAdapterPosition()));
-                                             imageFavorite.setVisibility(View.INVISIBLE);
-                                             dialog.dismiss();
-                                         }
+                        Product productFilter = productFiltered.get(getAdapterPosition());
+                        List<Product> products = databaseHelper.favoriteProductList();
 
-                                     }
-                                 })
-                                 .setNegativeButton(R.string.cancel_favorite, new DialogInterface.OnClickListener() {
-                                     @Override
-                                     public void onClick(DialogInterface dialog, int which) {
-                                         Toast.makeText(context, "Negative button", Toast.LENGTH_SHORT).show();
-                                     }
-                                 })
-                                .show();
+                        Log.i("my index", String.valueOf(products.indexOf(productFilter)));
+                        Log.i("my index 2", String.valueOf(products.contains(productFilter)));
 
+                        if(products.indexOf(productFilter) != -1){
+
+                            final MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context);
+                            materialAlertDialogBuilder
+                                    .setTitle("Ce produit existe déja dans les favoris")
+                                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.cancel();
+                                        }
+                                    })
+                                    .show();
+
+
+                        } else {
+
+                            final MaterialAlertDialogBuilder materialAlertDialogBuilderr = new MaterialAlertDialogBuilder(context);
+                            materialAlertDialogBuilderr
+                                    .setTitle(R.string.add_product_in_favoris)
+                                    .setPositiveButton(R.string.add_product_to_favorite, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Toast.makeText(context, "nPositive button", Toast.LENGTH_SHORT).show();
+                                            Product product = productFiltered.get(getAdapterPosition());
+                                            if(product.getId() != null){
+                                                databaseHelper.addProductToFavorite(productFiltered.get(getAdapterPosition()));
+                                                dialog.dismiss();
+                                            }
+
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.cancel_favorite, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Toast.makeText(context, "Negative button", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .show();
 
 
                         }
 
-
-                            // Respond to neutral button press
-
+                        }
 
                 });
 
 
-            } else {
-                imageFavorite.setVisibility(View.INVISIBLE);
             }
-
-
-
-
 
         }
     }

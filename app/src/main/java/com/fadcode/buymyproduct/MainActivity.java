@@ -1,48 +1,42 @@
  package com.fadcode.buymyproduct;
 
- import androidx.appcompat.app.AppCompatActivity;
- import androidx.appcompat.widget.SearchView;
- import androidx.appcompat.widget.Toolbar;
- import androidx.recyclerview.widget.RecyclerView;
- import androidx.recyclerview.widget.StaggeredGridLayoutManager;
- import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
  import android.app.SearchManager;
- import android.content.Context;
- import android.content.Intent;
- import android.content.SharedPreferences;
- import android.graphics.Color;
- import android.net.ConnectivityManager;
- import android.net.Network;
- import android.net.NetworkCapabilities;
- import android.net.NetworkInfo;
- import android.os.Build;
- import android.os.Bundle;
- import android.os.Parcelable;
- import android.util.Log;
- import android.view.Menu;
- import android.view.MenuItem;
- import android.view.View;
- import android.widget.Toast;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
- import com.fadcode.buymyproduct.Api.ApiUtils;
- import com.fadcode.buymyproduct.Model.Product;
- import com.fadcode.buymyproduct.Views.Adapter.ProductAdapter;
- import com.fadcode.buymyproduct.Views.ProductDetailsActivity;
- import com.fadcode.buymyproduct.Views.ProfileActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
- import org.jetbrains.annotations.NotNull;
+import com.fadcode.buymyproduct.Api.ApiUtils;
+import com.fadcode.buymyproduct.Model.Product;
+import com.fadcode.buymyproduct.Views.Adapter.ProductAdapter;
+import com.fadcode.buymyproduct.Views.ProductDetailsActivity;
+import com.fadcode.buymyproduct.Views.ProfileActivity;
 
- import java.util.ArrayList;
- import java.util.Arrays;
- import java.util.List;
- import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
- import retrofit2.Call;
- import retrofit2.Callback;
- import retrofit2.Response;
- import retrofit2.Retrofit;
- import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
  public class MainActivity extends AppCompatActivity
          implements ProductAdapter.ProductsAdapterListener{
@@ -187,7 +181,7 @@
              productListMenuItem.setVisible(true);
              loginMenuItem.setVisible(true);
              registerMenuItem.setVisible(true);
-             productFavoriteProductMenuItem.setVisible(true);
+             productFavoriteProductMenuItem.setVisible(false);
 
              Log.i("app_1" , getClass().getName());
              Log.i("app_2" , currentClass);

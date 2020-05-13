@@ -1,6 +1,7 @@
 package com.fadcode.buymyproduct.Model;
 
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -49,6 +50,18 @@ public class Product implements Serializable {
                 ", title='" + title + '\'' +
                 ", filename='" + filename + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        if ((other instanceof Product) == false) {
+            return false;
+        }
+        Product rhs = ((Product) other);
+        return new EqualsBuilder().append(id, rhs.id).append(filename, rhs.filename).append(title, rhs.title).isEquals();
     }
 }
 
