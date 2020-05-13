@@ -140,9 +140,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     productsAdapterListener.onProductSelected(productFiltered.get(getAdapterPosition()));
                 }
             });
+
             databaseHelper = new DatabaseHelper(context);
            final SharedPreferences preferences = context.getSharedPreferences("MY_PREF", 0);
-            if(preferences != null){
+
+            if(preferences.getString("user_email",null) != null){
+                imageFavorite.setVisibility(View.VISIBLE);
+
                 imageFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

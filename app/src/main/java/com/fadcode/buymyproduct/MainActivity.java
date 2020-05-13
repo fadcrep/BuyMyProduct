@@ -52,6 +52,8 @@ import retrofit2.Response;
      private MenuItem profileMenuItem, loginMenuItem, registerMenuItem,
              deconectMenuItem, productListMenuItem, productFavoriteProductMenuItem;
      String textUser = "user_email";
+     String id = "user_id";
+     String name = "name";
      String currentClass = "com.fadcode.buymyproduct.MainActivity";
      DatabaseHelper databaseHelper;
      private List<Product> productDatabaseList;
@@ -267,9 +269,9 @@ import retrofit2.Response;
 
          SharedPreferences.Editor editor = preferences.edit();
          editor.remove(textUser);
+         editor.remove(name);
+         editor.remove(id);
          editor.commit();
-         //finish();
-        // recreate();
         restartFirstActivity();
 
      }
