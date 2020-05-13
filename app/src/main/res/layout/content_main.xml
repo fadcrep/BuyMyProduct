@@ -4,6 +4,7 @@
     android:layout_marginTop="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAFAFA"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
     <RelativeLayout

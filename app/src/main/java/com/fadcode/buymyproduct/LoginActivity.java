@@ -149,6 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString( "user_email",currentUser.getEmail());
                 editor.putString("user_id", currentUser.getId());
+                if(currentUser.getName() != null){
+                    editor.putString("name", currentUser.getName());
+                }
                 editor.commit();
                 btn_connexion.setEnabled(true);
                 email_editext.setText("");

@@ -53,6 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        if(username != null){
+            textView_username.setText(username);
+        }
+
 
     }
 
@@ -92,6 +96,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void getFromSharedPreferences (){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("MY_PREF", 0);
         email= preferences.getString("user_email", null);
+
+        if(preferences.getString("name", null) != null){
+             username = preferences.getString("name", null);
+        }
     }
 
     public void myCustomDialog(){

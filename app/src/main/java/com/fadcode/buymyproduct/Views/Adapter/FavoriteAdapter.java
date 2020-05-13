@@ -78,7 +78,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                             .setPositiveButton(R.string.delete_product_favorite, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(context, "Positive button", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(context, "Positive button", Toast.LENGTH_SHORT).show();
                                     Product product = productListFavorite.get(getAdapterPosition());
                                     if (product.getId() != null) {
                                         databaseHelper.deleteProductToFavorite(product.getId());
@@ -94,7 +94,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                             .setNegativeButton(R.string.cancel_favorite, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(context, "Negative button", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(context, "Negative button", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .show();

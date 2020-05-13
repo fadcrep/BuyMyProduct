@@ -89,7 +89,7 @@ import retrofit2.Response;
 
          preferences = getApplicationContext().getSharedPreferences("MY_PREF",0);
          recyclerView = findViewById(R.id.recycleProduct);
-         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
          recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
 
