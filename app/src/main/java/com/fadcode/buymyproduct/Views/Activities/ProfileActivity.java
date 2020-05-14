@@ -1,4 +1,4 @@
-package com.fadcode.buymyproduct.Views;
+package com.fadcode.buymyproduct.Views.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.fadcode.buymyproduct.Api.ApiUtils;
@@ -33,6 +34,10 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView textView_email, textView_username;
     private String username, email;
     private Button updateProfile;
+
+    TextInputEditText editText_email;
+    TextInputEditText editText_name ;
+    TextInputEditText  editext_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,10 @@ public class ProfileActivity extends AppCompatActivity {
 
                 Log.i("TAG_APP 3", "USER_EMAIL: " + currentUser.getEmail());
                 Log.i("TAG_APP 4", "ID : " + currentUser.getId());
+                Toast.makeText(ProfileActivity.this, R.string.Modify_User_text, Toast.LENGTH_SHORT).show();
+                editText_name.setText("");
+                editText_email.setText("");
+                editext_password.setText("");
             }
 
             @Override
@@ -107,9 +116,9 @@ public class ProfileActivity extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_profil, null);
 
-        final TextInputEditText editText_email =  dialogView.findViewById(R.id.email_editext_profile);
-        final TextInputEditText editText_name =  dialogView.findViewById(R.id.name_editext_profile);
-        final TextInputEditText  editext_password =  dialogView.findViewById(R.id.password_editext_profile);
+        editText_email =  dialogView.findViewById(R.id.email_editext_profile);
+        editText_name =  dialogView.findViewById(R.id.name_editext_profile);
+        editext_password =  dialogView.findViewById(R.id.password_editext_profile);
         Button btn_submit =  dialogView.findViewById(R.id.buttonSubmit);
         Button btn_cancel = dialogView.findViewById(R.id.buttonCancel);
 

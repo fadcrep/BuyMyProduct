@@ -1,4 +1,4 @@
-package com.fadcode.buymyproduct;
+package com.fadcode.buymyproduct.Views.Activities;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import com.fadcode.buymyproduct.Api.ApiUtils;
 import com.fadcode.buymyproduct.Model.User;
+import com.fadcode.buymyproduct.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;

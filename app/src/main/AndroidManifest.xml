@@ -13,16 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FavoriteActivity" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".Views.Activities.FavoriteActivity" android:parentActivityName=".Views.Activities.MainActivity"></activity>
         <activity
-            android:name=".Views.ProfileActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:name=".Views.Activities.ProfileActivity"
+            android:parentActivityName=".Views.Activities.MainActivity"></activity>
         <activity
-            android:name=".Views.ProductDetailsActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".MainActivity">
+            android:name=".Views.Activities.ProductDetailsActivity"
+            android:parentActivityName=".Views.Activities.MainActivity" />
+        <activity android:name=".Views.Activities.RegisterActivity" />
+        <activity android:name=".Views.Activities.LoginActivity"></activity>
+        <activity android:name=".Views.Activities.MainActivity">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

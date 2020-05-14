@@ -1,4 +1,4 @@
-package com.fadcode.buymyproduct;
+package com.fadcode.buymyproduct.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.fadcode.buymyproduct.Model.Product;
 import com.fadcode.buymyproduct.Variable.Variable;
-import com.fadcode.buymyproduct.Views.ProfileActivity;
 
 import java.util.ArrayList;
 

@@ -1,24 +1,23 @@
-package com.fadcode.buymyproduct;
+package com.fadcode.buymyproduct.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import com.fadcode.buymyproduct.Database.DatabaseHelper;
 import com.fadcode.buymyproduct.Model.Product;
+import com.fadcode.buymyproduct.R;
 import com.fadcode.buymyproduct.Views.Adapter.FavoriteAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoriteActivity extends AppCompatActivity {
     private RecyclerView recyclerViewFavorite;
     private RecyclerView.Adapter adapterFavorite;
-    private  DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
     List<Product> listProduct;
 
     @Override

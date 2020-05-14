@@ -3,12 +3,10 @@ package com.fadcode.buymyproduct.Api;
 import com.fadcode.buymyproduct.Model.Comment;
 import com.fadcode.buymyproduct.Model.Product;
 import com.fadcode.buymyproduct.Model.User;
-import com.fadcode.buymyproduct.Views.ProductDetailsActivity;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -55,7 +53,7 @@ public interface ApiService {
                           @Field("password") String password
             );
 
-    @POST("modifyUserAccount.php")
-    Call<User> updateUserWithBody(@Body() User user);
+//    @POST("modifyUserAccount.php")
+//    Call<User> updateUserWithBody(@Body() User user);
 
 }

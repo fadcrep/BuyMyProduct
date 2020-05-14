@@ -1,4 +1,4 @@
-package com.fadcode.buymyproduct.Views;
+package com.fadcode.buymyproduct.Views.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;

@@ -36,4 +36,5 @@
     <string name="add_product_to_favorite">Ajouter</string>
     <string name="favorite_Product_text">Produits Favoris</string>
     <string name="delete_product_favorite">Supprimez ce produit ?</string>
+    <string name="Modify_User_text">Modification Effectuee avec succes</string>
 </resources>

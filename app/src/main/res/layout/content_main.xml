@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FAFAFA"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity">
+    tools:context=".Views.Activities.MainActivity">
     <RelativeLayout
         android:id="@+id/headerView"
         android:layout_width="match_parent"

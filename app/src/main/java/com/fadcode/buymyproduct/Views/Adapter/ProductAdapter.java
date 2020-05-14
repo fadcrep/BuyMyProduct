@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fadcode.buymyproduct.DatabaseHelper;
+import com.fadcode.buymyproduct.Database.DatabaseHelper;
 import com.fadcode.buymyproduct.Model.Product;
 import com.fadcode.buymyproduct.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;

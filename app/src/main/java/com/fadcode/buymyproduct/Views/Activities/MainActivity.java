@@ -1,4 +1,4 @@
- package com.fadcode.buymyproduct;
+ package com.fadcode.buymyproduct.Views.Activities;
 
  import android.app.SearchManager;
 import android.content.Context;
@@ -23,12 +23,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fadcode.buymyproduct.Api.ApiUtils;
-import com.fadcode.buymyproduct.Model.Product;
-import com.fadcode.buymyproduct.Views.Adapter.ProductAdapter;
-import com.fadcode.buymyproduct.Views.ProductDetailsActivity;
-import com.fadcode.buymyproduct.Views.ProfileActivity;
+ import com.fadcode.buymyproduct.Database.DatabaseHelper;
+ import com.fadcode.buymyproduct.Model.Product;
+ import com.fadcode.buymyproduct.R;
+ import com.fadcode.buymyproduct.Views.Adapter.ProductAdapter;
 
-import org.jetbrains.annotations.NotNull;
+ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ import retrofit2.Response;
      String textUser = "user_email";
      String id = "user_id";
      String name = "name";
-     String currentClass = "com.fadcode.buymyproduct.MainActivity";
+     String currentClass = "com.fadcode.buymyproduct.Views.Activities.MainActivity";
      DatabaseHelper databaseHelper;
      private List<Product> productDatabaseList;
 
